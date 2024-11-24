@@ -1,5 +1,6 @@
 import conectarAoBanco from "../config/dbconfig.js";
 import { ObjectId } from "mongodb";
+import 'dotenv/config';
 
 const dbconection = await conectarAoBanco(process.env.STRING_CONECTION);
 
