@@ -1,4 +1,5 @@
 import conectarAoBanco from "../config/dbconfig.js";
+import { ObjectId } from "mongodb";
 
 const dbconection = await conectarAoBanco(process.env.STRING_CONECTION);
 
@@ -13,4 +14,11 @@ async function createPost(newPost) {
     return collection.insertOne(newPost);
 };
 
-export { getAllPosts, createPost };
+async function updatePost(id, newPost) {
+    const db = dbconection.db("MyPrivateDataBase");
+    const collection = db.collection("posts");
+    const objID = ObjectId.createFromHexString(id);
+    return collection.updateOne({_id: new ObjectId(objID)}, {$set:newPost});
+};
+
+export { getAllPosts, createPost, updatePost };
