@@ -1,4 +1,4 @@
-import { getAllPosts, createPost, updatePost } from "../models/postsModel.js";
+import { getAllPosts, createPost, updatePost, deletePost } from "../models/postsModel.js";
 import fs from "fs";
 import gerarDescricaoComGemini from "../services/geminiService.js";
 
@@ -6,8 +6,6 @@ async function listAllPosts(req, res) {
     const posts = await getAllPosts();
     res.status(200).json(posts); 
 };
-
-
 
 async function postNewPost(req, res) {
     const newPost = req.body;
@@ -55,4 +53,14 @@ async function updateNewPost(req, res) {
     };
 };
 
-export { listAllPosts, postNewPost, uploadImage, updateNewPost };
+async function deleteOnePost(req, res) {
+    const id = req.params.id;
+    try{
+        const deletedPost = await deletePost(id);
+        res.status(200).json(deletedPost);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    };
+}
+
+export { listAllPosts, postNewPost, uploadImage, updateNewPost, deleteOnePost };
